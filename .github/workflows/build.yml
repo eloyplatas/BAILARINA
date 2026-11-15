@@ -77,15 +77,30 @@ jobs:
           name: Bailarina-${{ matrix.name }}
           path: Bailarina-${{ matrix.name }}.zip
 
+  # Publica una release con los tres zips cuando:
+  #  - se sube una etiqueta v*, o
+  #  - llega a main un commit cuyo mensaje empieza por "Release v" (la etiqueta sale del archivo VERSION).
   release:
-    name: Publicar (solo etiquetas v*)
-    if: startsWith(github.ref, 'refs/tags/v')
+    name: Publicar release
+    if: >-
+      startsWith(github.ref, 'refs/tags/v') ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'Release v'))
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - id: ver
+        run: echo "tag=v$(tr -d ' \n\r' < VERSION)" >> "$GITHUB_OUTPUT"
       - uses: actions/download-artifact@v4
-        with: { merge-multiple: true }
+        with: { merge-multiple: true, path: dist }
+      - run: cp docs/Bailarina_manual_EN_ES.pdf dist/
       - uses: softprops/action-gh-release@v2
         with:
-          files: |
-            Bailarina-*.zip
+          tag_name: ${{ steps.ver.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: Bailarina ${{ steps.ver.outputs.tag }}
+          body: |
+            VST3 para Linux, Windows (x64) y macOS (universal, con Audio Unit), más el manual en inglés y castellano.
+            Las versiones de Windows y macOS se compilan automáticamente y no se han probado todavía en un DAW.
+            La de macOS no está notarizada: si el sistema la bloquea, `xattr -cr` sobre el plugin.
+          files: dist/*
