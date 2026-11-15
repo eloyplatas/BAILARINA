@@ -1,6 +1,21 @@
 # Bailarina
 
+<img width="937" height="652" alt="Captura de pantalla_2026-11-15_02-08-07" src="https://github.com/user-attachments/assets/356f57ca-f21c-4252-96ad-39c558ac68ae" />
+
+
 Caja de música por modelado físico (síntesis modal). Plugin VST3 / Standalone (AU en macOS) hecho con JUCE.
+
+Bailarina es un instrumento virtual (VST3) que recrea una caja de música mecánica: la que llevaban dentro los antiguos joyeros, donde una pequeña bailarina empezaba a girar ante un espejo al abrir la tapa. No hay ninguna muestra grabada: todo el sonido se
+calcula en tiempo real con un modelo físico del peine, las púas, la caja de madera y la maquinaria de relojería.
+
+La intención es doble. Por un lado, recrear con fidelidad una caja de música mediante modelado físico, con su mecanismo, sus melodías y sus defectos. Por otro, expandir las posibilidades del instrumento: como el modelo está hecho de parámetros y no de grabaciones, el mismo motor puede llevarse mucho más allá de lo que haría una caja real, hacia campanas, kalimbas, cristal,
+bordones y timbres que todavía no tienen nombre.
+
+El Lume Mode es un modo especial con su propio panel. Sirve para recrear el sonido de grabaciones antiquísimas, y además para hacer Traditional Galician Noise y otras cosas bellas. 
+
+<img width="940" height="860" alt="Bailarina_interfaz_v6" src="https://github.com/user-attachments/assets/6f6b6d25-206a-411b-a4f8-def9d0567389" />
+
+
 
 - **Motor** (`Source/MusicBoxEngine.h`, C++ puro sin JUCE): cada nota es una lámina del peine modelada como barra empotrada-libre (parciales 1 : 6,27 : 17,55 : 34,39), púa con fase de contacto y zumbido de re-pulsado, apagadores, caja de madera (banco de resonadores) y ruido del regulador.
 - **Cilindro** (`Source/CylinderPlayer.h`): 44 melodías de dominio público (ver `CREDITS.md`), velocidad manual (x0,1 a x4) o tempo del DAW, cuerda real opcional y modo radio (todas las piezas en orden aleatorio, con dos segundos de pausa).
