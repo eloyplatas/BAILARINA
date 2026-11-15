@@ -28,6 +28,18 @@ El Lume Mode es un modo especial con su propio panel. Sirve para recrear el soni
 
 Deja el `.mid` en `tools/melodias/midi/` (o un `.abc` en `tools/melodias/abc/` y conviértelo con `abc2midi`), añade una línea a `LIBRARY` en `tools/make_melodies.py` y ejecuta `python3 tools/make_melodies.py` (necesita `pip install mido`). Regenera `Source/MelodyData.h`.
 
+## Windows y macOS
+
+Cada push compila el plugin para Linux, Windows (x64) y macOS (universal: Apple silicon e Intel) con GitHub Actions
+(`.github/workflows/build.yml`). Los zips se descargan desde la pestaña *Actions* del repositorio, en los artefactos
+de cada ejecución. Al subir una etiqueta `v*` (por ejemplo `v0.1.0`) se publican además como *release*.
+
+- Windows: copia `Bailarina.vst3` en `C:\Program Files\Common Files\VST3\`.
+- macOS: copia `Bailarina.vst3` en `~/Library/Audio/Plug-Ins/VST3/` y `Bailarina.component` (AU) en
+  `~/Library/Audio/Plug-Ins/Components/`. No está notarizado: si macOS lo bloquea, `xattr -cr` sobre el plugin.
+
+Las melodías propias van en `Bailarina/Melodias` dentro de `~/.config/` (Linux), `%APPDATA%` (Windows) o `~/Library/` (macOS).
+
 ## Compilar (Linux)
 
     sudo apt install build-essential cmake ninja-build libasound2-dev libx11-dev libxrandr-dev \
